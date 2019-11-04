@@ -13,9 +13,10 @@ import javax.swing.JPanel;
 /**
  * @author HarlockOfficial
  */
-public class Map extends JFrame{
+public class Map extends JFrame implements Runnable{ 
     private static final long serialVersionUID = 8027136468271736752L;
-    private JLabel pot,beccato,money,maria,notifiche, corriere,prostitute,notificheProstitute,velocita;
+    private FinestraCorrompi finestraC= null;
+    private JLabel pot,beccato,money,maria,fumo,coca,lsd,eroina,notifiche, corriere,prostitute,notificheProstitute,velocita;
     private JButton corrompi,statistiche,contabilita,acquista,statisticheProstitute,contattiMafiosi,richiesteMafiosi,pausa,velocitaMeno,velocitaPiu;
     public Map(Network n) {
         super();
@@ -45,7 +46,10 @@ public class Map extends JFrame{
         corrompi=new JButton("Corrompi");
         corrompi.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            	if(finestraC==null)
+            		finestraC = new FinestraCorrompi( beccato, money,Map.this);
+            	else 
+            		finestraC.setVisible(true);
             }
         });
         tmpP2.add(corrompi);
@@ -54,7 +58,7 @@ public class Map extends JFrame{
         
         tmpP=new JPanel(new GridLayout(0, 2));
         tmp=new JLabel();
-        tmp.setIcon(new ImageIcon(getClass().getResource("/MagnaccioManagerOnline/img/icone/MONEY.jpg")));
+        tmp.setIcon(new ImageIcon(getClass().getResource("/MagnaccioManagerOnline/img/icone/money.jpg")));
         tmpP.add(tmp);
         money=new JLabel("3000€");
         tmpP.add(money);
@@ -72,32 +76,32 @@ public class Map extends JFrame{
         tmp=new JLabel();
         tmp.setIcon(new ImageIcon(getClass().getResource("/MagnaccioManagerOnline/img/droghe/fumo.jpg")));
         tmpP.add(tmp);
-        maria=new JLabel("0g");
-        tmpP.add(maria);
+        fumo=new JLabel("0g");
+        tmpP.add(fumo);
         colonnaDx.add(tmpP);
         
         tmpP=new JPanel(new GridLayout(0, 2));
         tmp=new JLabel();
         tmp.setIcon(new ImageIcon(getClass().getResource("/MagnaccioManagerOnline/img/droghe/lsd.jpg")));
         tmpP.add(tmp);
-        maria=new JLabel("0g");
-        tmpP.add(maria);
+        lsd=new JLabel("0g");
+        tmpP.add(lsd);
         colonnaDx.add(tmpP);
         
         tmpP=new JPanel(new GridLayout(0, 2));
         tmp=new JLabel();
         tmp.setIcon(new ImageIcon(getClass().getResource("/MagnaccioManagerOnline/img/droghe/coca.jpg")));
         tmpP.add(tmp);
-        maria=new JLabel("0g");
-        tmpP.add(maria);
+        coca=new JLabel("0g");
+        tmpP.add(coca);
         colonnaDx.add(tmpP);
         
         tmpP=new JPanel(new GridLayout(0, 2));
         tmp=new JLabel();
         tmp.setIcon(new ImageIcon(getClass().getResource("/MagnaccioManagerOnline/img/droghe/eroina.jpg")));
         tmpP.add(tmp);
-        maria=new JLabel("0g");
-        tmpP.add(maria);
+        eroina=new JLabel("0g");
+        tmpP.add(eroina);
         colonnaDx.add(tmpP);
         
         notifiche=new JLabel("");
@@ -206,6 +210,29 @@ public class Map extends JFrame{
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
         setLocationRelativeTo(null);
+        new Thread (this).start();
         setVisible(true);
     }
+    public String getMoney()
+    {
+    	return money.getText();
+    }
+    public void setMoney(String soldi )
+    {
+    	System.out.println("ok");
+    	money.setText(soldi);
+    	System.out.println("o2k");
+    }
+    public void run() {
+		while(true)
+		{
+			try
+			{
+				Thread.sleep(10);
+			}catch(InterruptedException ex) {
+				
+			}
+		}
+		
+	}
 }
