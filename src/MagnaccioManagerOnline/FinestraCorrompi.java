@@ -17,6 +17,7 @@ public class FinestraCorrompi extends JFrame implements Runnable {
     private static final long serialVersionUID = 2286014442775280732L;
     private final Map M;
     private JLabel money;
+
     public FinestraCorrompi(final Map M) {
         super("Corrompi");
         this.M = M;
@@ -32,7 +33,7 @@ public class FinestraCorrompi extends JFrame implements Runnable {
         tmp = new JLabel();
         tmp.setIcon(new ImageIcon(getClass().getResource("/MagnaccioManagerOnline/img/icone/money.jpg")));
         tmpP.add(tmp);
-        money=new JLabel(M.getMoney().getText());
+        money = new JLabel(M.getMoney().getText());
         tmpP.add(money);
         add(tmpP);
         String[] choices = {"1", "10", "100", "1000", "5000", "10000"};
@@ -68,7 +69,7 @@ public class FinestraCorrompi extends JFrame implements Runnable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Integer.parseInt(M.getMoney().getText().substring(0, M.getMoney().getText().length() - 1)) >= Integer.parseInt(valore.getText().substring(0, valore.getText().length() - 1))) {
-                    M.setMoney(""+(Integer.parseInt(M.getMoney().getText().substring(0, M.getMoney().getText().length() - 1)) - Integer.parseInt(valore.getText().substring(0, valore.getText().length() - 1))) + "€");
+                    M.setMoney("" + (Integer.parseInt(M.getMoney().getText().substring(0, M.getMoney().getText().length() - 1)) - Integer.parseInt(valore.getText().substring(0, valore.getText().length() - 1))) + "€");
                 }
             }
         });
@@ -87,7 +88,6 @@ public class FinestraCorrompi extends JFrame implements Runnable {
                 Thread.sleep(10);
                 money.setText(M.getMoney().getText());
             } catch (InterruptedException ex) {
-
             }
         }
 

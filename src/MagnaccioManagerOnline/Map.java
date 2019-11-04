@@ -239,5 +239,5 @@ public class Map extends JFrame implements Runnable {
     public JLabel getMoney() {
         return money;
     }
-    
+
 }
