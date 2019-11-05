@@ -18,9 +18,9 @@ import javax.swing.JTextField;
  * @author HarlockOfficial
  */
 public class Network extends Thread {
-	BufferedOutputStream out;
-    BufferedReader in;
-    Socket s;
+    private BufferedOutputStream out;
+    private BufferedReader in;
+    private Socket s;
 
     public Network() {
         super();
