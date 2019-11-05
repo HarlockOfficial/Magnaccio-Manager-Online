@@ -3,7 +3,6 @@ package MagnaccioManagerOnline;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,7 +18,7 @@ import javax.swing.JTextField;
  * @author HarlockOfficial
  */
 public class Network extends Thread {
-    private BufferedOutputStream out;
+    private PrintWriter out;
     private BufferedReader in;
     private Socket s;
     private boolean go=false;
@@ -39,15 +38,7 @@ public class Network extends Thread {
     }
 
     public void scrivi(String str) {
-        try {
-            out.write((str + "\n").getBytes());
-        } catch (IOException ex) {
-            if (s.isConnected() && out != null) {
-                scrivi(str);
-            } else {
-                System.exit(0);
-            }
-        }
+        out.println(str);
     }
 
     public String leggi() {
@@ -77,8 +68,8 @@ public class Network extends Thread {
                     try {
                         s = new Socket(url.getText(), Integer.parseInt(port.getText()));
                         frame.setVisible(false);
-                        PrintWriter out=new PrintWriter(s.getOutputStream(),true);
-                        BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream())); 
+                        out=new PrintWriter(s.getOutputStream(),true);
+                        in = new BufferedReader(new InputStreamReader(s.getInputStream())); 
                         Thread.sleep(5000);
                         String str=in.readLine();
                         out.println("got");
