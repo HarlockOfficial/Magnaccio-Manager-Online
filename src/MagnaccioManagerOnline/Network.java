@@ -7,6 +7,7 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import javax.swing.JButton;
@@ -21,7 +22,7 @@ public class Network extends Thread {
     private BufferedOutputStream out;
     private BufferedReader in;
     private Socket s;
-
+    private boolean go=false;
     public Network() {
         super();
         firstConnection();
@@ -75,13 +76,16 @@ public class Network extends Thread {
                 if (url.getText() != null && !url.getText().equals("") && port.getText() != null && !port.getText().equals("")) {
                     try {
                         s = new Socket(url.getText(), Integer.parseInt(port.getText()));
-                        out = new BufferedOutputStream(s.getOutputStream());
-                        in = new BufferedReader(new InputStreamReader(s.getInputStream()));
                         frame.setVisible(false);
-                        String str = leggi();
+                        PrintWriter out=new PrintWriter(s.getOutputStream(),true);
+                        BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream())); 
+                        Thread.sleep(5000);
+                        String str=in.readLine();
+                        out.println("got");
                         s = new Socket(url.getText(), Integer.parseInt(str));
-                        out = new BufferedOutputStream(s.getOutputStream());
+                        out = new PrintWriter(s.getOutputStream(), true);
                         in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+                        go=true;
                     } catch (UnknownHostException ex) {
                         frame.setVisible(true);
                         url.setText("");
@@ -93,6 +97,8 @@ public class Network extends Thread {
                         frame.setVisible(true);
                         url.setText("");
                         port.setText("");
+                    } catch(InterruptedException ex){
+                        
                     }
                 }
             }
@@ -110,10 +116,7 @@ public class Network extends Thread {
 
     public void go() {
         try {
-            while (s == null) {
-                Thread.sleep(10);
-            }
-            while (!s.isConnected()) {
+            while (!go) {
                 Thread.sleep(10);
             }
             this.start();
