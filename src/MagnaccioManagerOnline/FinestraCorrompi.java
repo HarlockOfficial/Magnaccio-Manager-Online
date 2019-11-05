@@ -16,7 +16,7 @@ public class FinestraCorrompi extends JFrame implements Runnable {
 
     private static final long serialVersionUID = 2286014442775280732L;
     private final Map M;
-    private JLabel money;
+    private JLabel money,beccato;
 
     public FinestraCorrompi(final Map M) {
         super("Corrompi");
@@ -27,7 +27,8 @@ public class FinestraCorrompi extends JFrame implements Runnable {
         JLabel tmp = new JLabel();
         tmp.setIcon(new ImageIcon(getClass().getResource("/MagnaccioManagerOnline/img/icone/guardie.jpg")));
         tmpP.add(tmp);
-        tmpP.add(new JLabel(M.getBeccato().getText()));
+        beccato=new JLabel(M.getBeccato().getText());
+        tmpP.add(beccato);
         add(tmpP);
         tmpP = new JPanel(new GridLayout(0, 2));
         tmp = new JLabel();
@@ -70,6 +71,9 @@ public class FinestraCorrompi extends JFrame implements Runnable {
             public void actionPerformed(ActionEvent e) {
                 if (Integer.parseInt(M.getMoney().getText().substring(0, M.getMoney().getText().length() - 1)) >= Integer.parseInt(valore.getText().substring(0, valore.getText().length() - 1))) {
                     M.setMoney("" + (Integer.parseInt(M.getMoney().getText().substring(0, M.getMoney().getText().length() - 1)) - Integer.parseInt(valore.getText().substring(0, valore.getText().length() - 1))) + "€");
+                    FinestraCorrompi.this.setVisible(false);
+                    cb.setSelectedIndex(0);
+                    valore.setText("0€");
                 }
             }
         });
@@ -87,6 +91,7 @@ public class FinestraCorrompi extends JFrame implements Runnable {
             try {
                 Thread.sleep(10);
                 money.setText(M.getMoney().getText());
+                beccato.setText(M.getBeccato().getText());
             } catch (InterruptedException ex) {
             }
         }

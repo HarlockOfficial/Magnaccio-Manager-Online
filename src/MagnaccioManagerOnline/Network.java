@@ -14,10 +14,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
+/**
+ * @author HarlockOfficial
+ */
 public class Network extends Thread {
-
-    BufferedOutputStream out;
+	BufferedOutputStream out;
     BufferedReader in;
     Socket s;
 

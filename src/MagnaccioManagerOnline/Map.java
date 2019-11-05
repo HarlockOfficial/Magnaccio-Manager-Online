@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 /**
  * @author HarlockOfficial
  */
-public class Map extends JFrame implements Runnable {
+public class Map extends JFrame/* implements Runnable */{
 
     private static final long serialVersionUID = 8027136468271736752L;
     private FinestraCorrompi finestraC = null;
@@ -213,7 +213,7 @@ public class Map extends JFrame implements Runnable {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
         setLocationRelativeTo(null);
-        new Thread(this).start();
+        //new Thread(this).start();
         setVisible(true);
     }
 
@@ -221,7 +221,7 @@ public class Map extends JFrame implements Runnable {
         money.setText(soldi);
     }
 
-    public void run() {
+    /*public void run() {
         while (true) {
             try {
                 Thread.sleep(10);
@@ -230,7 +230,7 @@ public class Map extends JFrame implements Runnable {
             }
         }
 
-    }
+    }*/
 
     public JLabel getBeccato() {
         return beccato;
