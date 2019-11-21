@@ -1,5 +1,8 @@
 package MagnaccioManagerOnline;
 
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -9,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 /**
  * @author HarlockOfficial
@@ -17,19 +21,24 @@ public class Map extends JFrame/* implements Runnable */{
 
     private static final long serialVersionUID = 8027136468271736752L;
     private FinestraCorrompi finestraC = null;
-    private final JLabel pot, beccato, money, maria, fumo, coca, lsd, eroina, notifiche, corriere, prostitute, notificheProstitute, velocita;
-    private final JButton corrompi, statistiche, contabilita, acquista, statisticheProstitute, contattiMafiosi, richiesteMafiosi, pausa, velocitaMeno, velocitaPiu;
+    private final JLabel pot, beccato, money, maria, fumo, coca, lsd, eroina, notifiche, corriere, prostitute, notificheProstitute;
+    private final JButton corrompi, statistiche, contabilita, acquista, statisticheProstitute, contattiMafiosi, richiesteMafiosi;
 
     public Map(Network n) {
         super();
-        setLayout(new GridLayout(2, 0));
-        JPanel p1 = new JPanel(new GridLayout(0, 2));
+        setLayout(new GridBagLayout());
+        GridBagConstraints c=new GridBagConstraints();
+        //mappa citta'
         JLabel tmp = new JLabel();
         tmp.setIcon(new ImageIcon(new ImageIcon(getClass().getResource("/MagnaccioManagerOnline/img/Mappe/Citta.jpg")).getImage().getScaledInstance(400, 400, Image.SCALE_DEFAULT)));
-        p1.add(tmp);
-
+        c.fill=SwingConstants.NORTH_EAST;
+        c.gridwidth=1;
+        c.gridheight=1;
+        c.gridx=0;
+        c.gridy=0;
+        add(tmp,c);
+        //colonna DX
         JPanel colonnaDx = new JPanel(new GridLayout(13, 0));
-
         JPanel tmpP = new JPanel(new GridLayout(0, 2));
         tmp = new JLabel();
         tmp.setIcon(new ImageIcon(getClass().getResource("/MagnaccioManagerOnline/img/icone/fist.jpg")));
@@ -47,6 +56,7 @@ public class Map extends JFrame/* implements Runnable */{
         tmpP2.add(beccato);
         corrompi = new JButton("Corrompi");
         corrompi.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 if (finestraC == null) {
                     finestraC = new FinestraCorrompi(Map.this);
@@ -112,6 +122,7 @@ public class Map extends JFrame/* implements Runnable */{
 
         statistiche = new JButton("Statistiche");
         statistiche.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
@@ -120,6 +131,7 @@ public class Map extends JFrame/* implements Runnable */{
 
         contabilita = new JButton("Contabilità");
         contabilita.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
@@ -128,6 +140,7 @@ public class Map extends JFrame/* implements Runnable */{
 
         acquista = new JButton("Acquista");
         acquista.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
@@ -142,20 +155,26 @@ public class Map extends JFrame/* implements Runnable */{
         tmpP.add(new JLabel("Corriere:"));
         tmpP.add(corriere);
         colonnaDx.add(tmpP);
-        p1.add(colonnaDx);
-        add(p1);
-
-        p1 = new JPanel(new GridLayout(0, 5));
+        
+        c.fill=SwingConstants.NORTH_WEST;
+        c.gridx=1;
+        c.gridy=0;
+        add(colonnaDx,c);
+        
+        //menu sotto
+        JPanel p1 = new JPanel(new GridLayout(0, 3));
         prostitute = new JLabel();
         prostitute.setIcon(new ImageIcon(new ImageIcon(getClass().getResource("/MagnaccioManagerOnline/img/icone/prostituta.jpg")).getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
         p1.add(prostitute);
 
         tmpP = new JPanel(new GridLayout(3, 0));
-        tmpP.add(new JLabel("Prostituzione:"));
+        tmp=new JLabel("Prostituzione:");
+        tmpP.add(tmp);
         notificheProstitute = new JLabel("");
         tmpP.add(notificheProstitute);
         statisticheProstitute = new JButton("Statistiche Puttane");
         statisticheProstitute.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
@@ -166,6 +185,7 @@ public class Map extends JFrame/* implements Runnable */{
         tmpP = new JPanel(new GridLayout(2, 0));
         contattiMafiosi = new JButton("Contatti Mafiosi");
         contattiMafiosi.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
@@ -173,43 +193,19 @@ public class Map extends JFrame/* implements Runnable */{
         tmpP.add(contattiMafiosi);
         richiesteMafiosi = new JButton("Richieste dei Mafiosi");
         richiesteMafiosi.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
         });
         tmpP.add(richiesteMafiosi);
         p1.add(tmpP);
-
-        pausa = new JButton("Pausa");
-        pausa.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        });
-        p1.add(pausa);
-
-        tmpP = new JPanel(new GridLayout(2, 0));
-        tmpP.add(new JLabel("Velocità:"));
-        tmpP2 = new JPanel(new GridLayout(0, 3));
-        velocitaMeno = new JButton("-");
-        velocitaMeno.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        });
-        tmpP2.add(velocitaMeno);
-        velocita = new JLabel("1");
-        tmpP2.add(velocita);
-        velocitaPiu = new JButton("+");
-        velocitaPiu.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        });
-        tmpP2.add(velocitaPiu);
-        tmpP.add(tmpP2);
-        p1.add(tmpP);
-        add(p1);
+        c.fill=SwingConstants.CENTER;
+        c.gridx=0;
+        c.gridy=1;
+        c.gridwidth=2;
+        add(p1,c);
+        setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
         setLocationRelativeTo(null);
