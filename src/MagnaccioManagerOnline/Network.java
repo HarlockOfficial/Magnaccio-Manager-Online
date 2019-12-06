@@ -37,15 +37,19 @@ public class Network extends Thread {
         }
     }
 
-    public void scrivi(String str) {
+    public synchronized void scrivi(String str) {
         out.println(str);
     }
 
-    public String leggi() {
+    public synchronized String leggi() {
         try {
-            return in.readLine();
+            String s=null;
+            do{
+                s=in.readLine();
+            }while((s==null || s.equals("")));
+            return s;
         } catch (IOException ex) {
-            return "";
+            return null;
         }
     }
 
@@ -104,7 +108,6 @@ public class Network extends Thread {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
-
     public void go() {
         try {
             while (!go) {

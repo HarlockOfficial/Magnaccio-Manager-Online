@@ -1,6 +1,5 @@
 package MagnaccioManagerOnline;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -17,15 +16,17 @@ import javax.swing.SwingConstants;
 /**
  * @author HarlockOfficial
  */
-public class Map extends JFrame/* implements Runnable */{
+public class Map extends JFrame /*implements Runnable */{
 
     private static final long serialVersionUID = 8027136468271736752L;
-    private FinestraCorrompi finestraC = null;
-    private final JLabel pot, beccato, money, maria, fumo, coca, lsd, eroina, notifiche, corriere, prostitute, notificheProstitute;
-    private final JButton corrompi, statistiche, contabilita, acquista, statisticheProstitute, contattiMafiosi, richiesteMafiosi;
-
+    private FinestraCorrompi finestraCorr = null;
+    private FinestraAcquista finestraAcq=null;
+    private JLabel pot, beccato, money, maria, fumo, coca, lsd, eroina, notifiche, corriere, prostitute, notificheProstitute;
+    private JButton corrompi, statistiche, contabilita, acquista, statisticheProstitute, contattiMafiosi, richiesteMafiosi;
+    private Network n;
     public Map(Network n) {
         super();
+        this.n=n;
         setLayout(new GridBagLayout());
         GridBagConstraints c=new GridBagConstraints();
         //mappa citta'
@@ -58,10 +59,10 @@ public class Map extends JFrame/* implements Runnable */{
         corrompi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (finestraC == null) {
-                    finestraC = new FinestraCorrompi(Map.this);
+                if (finestraCorr == null) {
+                    finestraCorr = new FinestraCorrompi(Map.this);
                 } else {
-                    finestraC.setVisible(true);
+                    finestraCorr.setVisible(true);
                 }
             }
         });
@@ -142,7 +143,11 @@ public class Map extends JFrame/* implements Runnable */{
         acquista.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                if(finestraAcq==null){
+                    finestraAcq=new FinestraAcquista(Map.this);
+                }else{
+                    finestraAcq.setVisible(true);
+                }
             }
         });
         colonnaDx.add(acquista);
@@ -216,16 +221,19 @@ public class Map extends JFrame/* implements Runnable */{
     public void setMoney(String soldi) {
         money.setText(soldi);
     }
-
+    public void setBeccato(String txt){
+        beccato.setText(txt);
+    }
     /*public void run() {
-        while (true) {
+        boolean run=true;
+        while (run) {
             try {
                 Thread.sleep(10);
             } catch (InterruptedException ex) {
 
             }
         }
-
+    System.exit(0);
     }*/
 
     public JLabel getBeccato() {
@@ -235,5 +243,51 @@ public class Map extends JFrame/* implements Runnable */{
     public JLabel getMoney() {
         return money;
     }
-
+    public synchronized void scrivi(String str){
+        n.scrivi(str);
+        try{
+            Thread.sleep(500);
+        }catch(InterruptedException ex){}
+    }
+    public synchronized String leggi(){
+        String s=n.leggi();
+        while(s==null || s.equals("")){
+            try{
+                Thread.sleep(500);
+            }catch(InterruptedException ex){}
+            s=n.leggi();
+        }
+        return s;
+    }
+    public void setMaria(String str){
+        maria.setText(str+"g");
+    }
+    public void setFumo(String str){
+        fumo.setText(str+"g");
+    }
+    public void setLsd(String str){
+        lsd.setText(str+"g");
+    }
+    public void setCoca(String str){
+        coca.setText(str+"g");
+    }
+    public void setEroina(String str){
+        eroina.setText(str+"g");
+    }
+    public JLabel getMaria() {
+        return maria;
+    }
+    public JLabel getFumo() {
+        return fumo;
+    }
+    public JLabel getLsd() {
+        return lsd;
+    }
+    public JLabel getCoca() {
+        return coca;
+    }
+    public JLabel getEroina() {
+        return eroina;
+    }
+    
 }
