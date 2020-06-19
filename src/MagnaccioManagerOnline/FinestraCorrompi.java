@@ -3,7 +3,6 @@ package MagnaccioManagerOnline;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
@@ -15,8 +14,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class FinestraCorrompi extends JFrame implements Runnable {
-
-    private static final long serialVersionUID = 2286014442775280732L;
     private Map M;
     private JLabel money,beccato;
     private boolean go=true;
@@ -48,12 +45,8 @@ public class FinestraCorrompi extends JFrame implements Runnable {
         JButton btnP = new JButton("+");
         JButton btnM = new JButton("-");
         final JLabel valore = new JLabel("0€");
-        btnP.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                valore.setText("" + (Integer.parseInt(valore.getText().substring(0, valore.getText().length() - 1)) + Integer.parseInt(cb.getSelectedItem().toString())) + "€");
-            }
+        btnP.addActionListener((ActionEvent e) -> {
+            valore.setText("" + (Integer.parseInt(valore.getText().substring(0, valore.getText().length() - 1)) + Integer.parseInt(cb.getSelectedItem().toString())) + "€");
         });
         btnM.addActionListener((ActionEvent e) -> {
             if ((Integer.parseInt(valore.getText().substring(0, valore.getText().length() - 1)) - Integer.parseInt(cb.getSelectedItem().toString())) >= 0) {
@@ -72,7 +65,7 @@ public class FinestraCorrompi extends JFrame implements Runnable {
                     do {
                         x1 = (new Random().nextDouble()*10);
                     } while (x1 > (Double.parseDouble(M.getBeccato().getText().substring(0, M.getBeccato().getText().length()-1))));
-                    M.setBeccato((Double.parseDouble(M.getBeccato().getText().substring(0, M.getBeccato().getText().length()-1)) - x1) + "%");
+                    M.setBeccato((String.format("%.2f",Double.parseDouble(M.getBeccato().getText().substring(0, M.getBeccato().getText().length()-1)) - x1)) + "%");
                 } else {
                     JOptionPane.showMessageDialog(null, "Hai corrotto alcuni agenti", "Corruzione", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -100,6 +93,11 @@ public class FinestraCorrompi extends JFrame implements Runnable {
             } catch (InterruptedException ex) {
             }
         }
-
+    }
+    public void close(){
+        go=false;
+        removeAll();
+        M=null;
+        setVisible(false);
     }
 }

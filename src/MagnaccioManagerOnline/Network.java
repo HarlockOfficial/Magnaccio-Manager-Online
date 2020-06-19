@@ -117,4 +117,11 @@ public class Network extends Thread {
         } catch (InterruptedException ex) {
         }
     }
+    public void close(){
+        try{
+            s.close();
+            in.close();
+            out.close();
+        }catch(IOException ignored){}
+    }
 }

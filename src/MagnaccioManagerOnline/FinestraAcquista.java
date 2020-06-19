@@ -343,16 +343,17 @@ public class FinestraAcquista extends JFrame{
         avviaSpedizione=new JButton("Avvia Spedizione");
         avviaSpedizione.addActionListener((ActionEvent e) -> {
             avviaSpedizione.setEnabled(false);
-            if(status[Integer.parseInt(paginaCorriere.getText())] && Integer.parseInt(money.getText().substring(0,money.getText().length()-1))-Integer.parseInt(spesaTotale.getText().substring(0,spesaTotale.getText().length()-1))>=0){
+            m.setCorriere("In Viaggio");
+            if(status[Integer.parseInt(paginaCorriere.getText())-1] && Integer.parseInt(money.getText().substring(0,money.getText().length()-1))-Integer.parseInt(spesaTotale.getText().substring(0,spesaTotale.getText().length()-1))>=0){
                 M.scrivi("spedizioneStart;"+spesaTotale.getText().substring(0,spesaTotale.getText().length()-1)+";"+rischio.getText().substring(9,rischio.getText().length()-1)+";"+qualitaCorriere.getText().substring(9));
                 JOptionPane.showMessageDialog(null, "Spedizione Avviata","Spedizione",JOptionPane.INFORMATION_MESSAGE);
                 M.setMoney((Integer.parseInt(money.getText().substring(0,money.getText().length()-1))-Integer.parseInt(spesaTotale.getText().substring(0, spesaTotale.getText().length()-1)))+"€");
-                status[Integer.parseInt(paginaCorriere.getText())]=false;
-                statoCorriere.setText("Non Disponibile");
+                status[Integer.parseInt(paginaCorriere.getText())-1]=false;
+                statoCorriere.setText("Stato: Non Disponibile");
                 String result=M.leggi();
                 if(result.equals("spedizione;Ok")){
                     JOptionPane.showMessageDialog(null, "La Spedizione è andata a buon fine", "Spedizione", JOptionPane.INFORMATION_MESSAGE);
-                    status[Integer.parseInt(paginaCorriere.getText())]=true;
+                    status[Integer.parseInt(paginaCorriere.getText())-1]=true;
                     M.setMaria((Integer.parseInt(M.getMaria().getText().substring(0,M.getMaria().getText().length()-1))+Integer.parseInt(quantitaMaria.getText().substring(0,quantitaMaria.getText().length()-1)))+"");
                     M.setFumo((Integer.parseInt(M.getFumo().getText().substring(0,M.getFumo().getText().length()-1))+Integer.parseInt(quantitaFumo.getText().substring(0,quantitaFumo.getText().length()-1)))+"");
                     M.setLsd((Integer.parseInt(M.getLsd().getText().substring(0,M.getLsd().getText().length()-1))+Integer.parseInt(quantitaLsd.getText().substring(0,quantitaLsd.getText().length()-1)))+"");
@@ -366,11 +367,15 @@ public class FinestraAcquista extends JFrame{
                     new Thread(() -> {
                         try{
                             Thread.sleep(new Random().nextInt(5)*60*1000);
-                            status[Integer.parseInt(paginaCorriere.getText())]=true;
+                            status[Integer.parseInt(paginaCorriere.getText())-1]=true;
                         }catch(InterruptedException ex){}
                     }).start();
                 }
+                m.setCorriere("Inattivo");
                 setVisible(false);
+            }else{
+                avviaSpedizione.setEnabled(true);
+                m.setCorriere("Inattivo");
             }
         });
         corriere.add(avviaSpedizione);
@@ -395,5 +400,11 @@ public class FinestraAcquista extends JFrame{
             }
         }).start();
         setVisible(true);
+    }
+    public void close(){
+        go=false;
+        removeAll();
+        M=null;
+        setVisible(false);
     }
 }

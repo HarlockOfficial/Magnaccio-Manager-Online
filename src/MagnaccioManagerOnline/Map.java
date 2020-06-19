@@ -5,7 +5,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,15 +19,15 @@ import javax.swing.SwingConstants;
  */
 public class Map extends JFrame /*implements Runnable */{
 
-    private static final long serialVersionUID = 8027136468271736752L;
     private FinestraCorrompi finestraCorr = null;
     private FinestraAcquista finestraAcq=null;
-    private JLabel pot, beccato, money, maria, fumo, coca, lsd, eroina, notifiche, corriere, prostitute, notificheProstitute;
-    private JButton corrompi, statistiche, contabilita, acquista, statisticheProstitute, contattiMafiosi, richiesteMafiosi;
-    private Network n;
+    private final JLabel pot, beccato, money, maria, fumo, coca, lsd, eroina, notifiche, corriere, prostitute, notificheProstitute;
+    private final JButton corrompi, statistiche, contabilita, acquista, statisticheProstitute, contattiMafiosi, richiesteMafiosi;
+    private final Network N;
+    private FinestraContabilita finestraContabilita=null;
     public Map(Network n) {
         super();
-        this.n=n;
+        N=n;
         setLayout(new GridBagLayout());
         GridBagConstraints c=new GridBagConstraints();
         //mappa citta'
@@ -56,14 +57,11 @@ public class Map extends JFrame /*implements Runnable */{
         beccato = new JLabel("0%");
         tmpP2.add(beccato);
         corrompi = new JButton("Corrompi");
-        corrompi.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (finestraCorr == null) {
-                    finestraCorr = new FinestraCorrompi(Map.this);
-                } else {
-                    finestraCorr.setVisible(true);
-                }
+        corrompi.addActionListener((ActionEvent e) -> {
+            if (finestraCorr == null) {
+                finestraCorr = new FinestraCorrompi(Map.this);
+            } else {
+                finestraCorr.setVisible(true);
             }
         });
         tmpP2.add(corrompi);
@@ -122,32 +120,27 @@ public class Map extends JFrame /*implements Runnable */{
         colonnaDx.add(notifiche);
 
         statistiche = new JButton("Statistiche");
-        statistiche.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
+        statistiche.addActionListener((ActionEvent e) -> {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         });
         colonnaDx.add(statistiche);
 
         contabilita = new JButton("Contabilità");
-        contabilita.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        contabilita.addActionListener((ActionEvent e) -> {
+            if(finestraContabilita==null){
+                finestraContabilita=new FinestraContabilita(Map.this);
+            }else{
+                finestraContabilita.setVisible(true);
             }
         });
         colonnaDx.add(contabilita);
 
         acquista = new JButton("Acquista");
-        acquista.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(finestraAcq==null){
-                    finestraAcq=new FinestraAcquista(Map.this);
-                }else{
-                    finestraAcq.setVisible(true);
-                }
+        acquista.addActionListener((ActionEvent e) -> {
+            if(finestraAcq==null){
+                finestraAcq=new FinestraAcquista(Map.this);
+            }else{
+                finestraAcq.setVisible(true);
             }
         });
         colonnaDx.add(acquista);
@@ -178,30 +171,21 @@ public class Map extends JFrame /*implements Runnable */{
         notificheProstitute = new JLabel("");
         tmpP.add(notificheProstitute);
         statisticheProstitute = new JButton("Statistiche Puttane");
-        statisticheProstitute.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
+        statisticheProstitute.addActionListener((ActionEvent e) -> {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         });
         tmpP.add(statisticheProstitute);
         p1.add(tmpP);
 
         tmpP = new JPanel(new GridLayout(2, 0));
         contattiMafiosi = new JButton("Contatti Mafiosi");
-        contattiMafiosi.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
+        contattiMafiosi.addActionListener((ActionEvent e) -> {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         });
         tmpP.add(contattiMafiosi);
         richiesteMafiosi = new JButton("Richieste dei Mafiosi");
-        richiesteMafiosi.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
+        richiesteMafiosi.addActionListener((ActionEvent e) -> {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         });
         tmpP.add(richiesteMafiosi);
         p1.add(tmpP);
@@ -211,7 +195,19 @@ public class Map extends JFrame /*implements Runnable */{
         c.gridwidth=2;
         add(p1,c);
         setResizable(false);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                finestraAcq.close();
+                finestraContabilita.close();
+                finestraCorr.close();
+                N.close();
+                removeAll();
+                e.getWindow().dispose();
+                System.exit(0);
+            }
+        });
         pack();
         setLocationRelativeTo(null);
         //new Thread(this).start();
@@ -244,18 +240,18 @@ public class Map extends JFrame /*implements Runnable */{
         return money;
     }
     public synchronized void scrivi(String str){
-        n.scrivi(str);
+        N.scrivi(str);
         try{
             Thread.sleep(500);
         }catch(InterruptedException ex){}
     }
     public synchronized String leggi(){
-        String s=n.leggi();
+        String s=N.leggi();
         while(s==null || s.equals("")){
             try{
                 Thread.sleep(500);
             }catch(InterruptedException ex){}
-            s=n.leggi();
+            s=N.leggi();
         }
         return s;
     }
@@ -273,6 +269,9 @@ public class Map extends JFrame /*implements Runnable */{
     }
     public void setEroina(String str){
         eroina.setText(str+"g");
+    }
+    public void setCorriere(String str){
+        corriere.setText(str);
     }
     public JLabel getMaria() {
         return maria;
